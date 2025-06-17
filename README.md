@@ -2,7 +2,7 @@
 
 Clipo is a modern social video-sharing platform inspired by TikTok, Instagram Reels, and YouTube Shorts.
 
-## 🔧 Tech Stack
+## 🔧 Tech Stack 
 
 - ⚡ Next.js 14 (App Router)
 - 🗃️ MongoDB (Mongoose)
@@ -14,4 +14,3 @@ Clipo is a modern social video-sharing platform inspired by TikTok, Instagram Re
 
 - User sign-up & login
 - Upload videos
-- Comment system
