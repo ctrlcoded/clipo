@@ -1,16 +1,41 @@
-# Clipo 🎥
+# Clipo - Simple File Sharing
 
-Clipo is a modern social video-sharing platform inspired by TikTok, Instagram Reels, and YouTube Shorts.
+A minimalistic file sharing application built with Next.js and ImageKit.
 
-## 🔧 Tech Stack 
+## Features
 
-- ⚡ Next.js 14 (App Router)
-- 🗃️ MongoDB (Mongoose)
-- 🔐 Authentication (NextAuth)
-- ☁️ ImageKit for video hosting and optimization
-- 🧠 TypeScript + Tailwind CSS
+- Drag and drop file uploads
+- Instant shareable links
+- Simple black and white UI
+- File size limit of 10MB
+- No account required
 
-## 🚀 Features (Planned)
+## Setup
 
-- User sign-up & login
-- Upload videos
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create a `.env.local` file in the root directory with your ImageKit credentials:
+```env
+NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=your_public_key
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=your_url_endpoint
+IMAGEKIT_PRIVATE_KEY=your_private_key
+```
+
+4. Run the development server:
+```bash
+npm run dev
+```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Tech Stack
+
+- Next.js 14
+- TypeScript
+- TailwindCSS
+- ImageKit
+- React Icons
