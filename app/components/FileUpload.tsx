@@ -46,12 +46,20 @@ export default function FileUpload() {
         body: formData,
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
 
       if (!response.ok) {
-        throw new Error(data.error || "Upload failed");
+        if (contentType.includes("application/json")) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Upload failed");
+        } else {
+          const errorText = await response.text(); // HTML error
+          console.error("HTML error response:", errorText);
+          throw new Error("Upload failed with non-JSON response");
+        }
       }
 
+      const data = await response.json();
       setUploadedUrl(data.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
@@ -63,12 +71,9 @@ export default function FileUpload() {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile) {
-      // Trigger same validation as file input
-      if (fileRef.current) {
-        fileRef.current.files = e.dataTransfer.files;
-        handleFileSelect({ target: fileRef.current } as any);
-      }
+    if (droppedFile && fileRef.current) {
+      fileRef.current.files = e.dataTransfer.files;
+      handleFileSelect({ target: fileRef.current } as any);
     }
   };
 
@@ -106,6 +111,7 @@ export default function FileUpload() {
                 className="max-h-[300px] mx-auto rounded-lg"
               />
             )}
+
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => {
@@ -117,6 +123,7 @@ export default function FileUpload() {
               >
                 Cancel
               </button>
+
               <button
                 onClick={handleUpload}
                 disabled={uploading}

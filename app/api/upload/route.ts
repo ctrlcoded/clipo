@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
+import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
+import { existsSync } from "fs";
 
 export async function POST(request: Request) {
   try {
@@ -17,13 +18,18 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Save file to public directory
-    const path = join(process.cwd(), "public/uploads", file.name);
+    // 📁 Ensure uploads folder exists
+    const uploadDir = join(process.cwd(), "public/uploads");
+    if (!existsSync(uploadDir)) {
+      await mkdir(uploadDir, { recursive: true });
+    }
+
+    // 📝 Save file to public/uploads
+    const path = join(uploadDir, file.name);
     await writeFile(path, buffer);
 
-    // Return the public URL
+    // 🌐 Return file URL
     const url = `/uploads/${file.name}`;
-
     return NextResponse.json({ url });
   } catch (error) {
     console.error("Error uploading file:", error);
@@ -32,4 +38,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-} 
+}
